@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="shortcut icon" href="mylogo1.png" /><title>Bouncing Ball</title>
+  <style>
+  canvas {border : 1px solid black;
+          position : absolute;
+    left : 50px;
+    top:100px;
+    
+    }
+   
+  </style>
+</head>
+<body>
+ <h1 id="demo"></h1>
+  <h3>If ball touches the obstacle, game stops!</h3>
+<canvas id="myCanvas" width="1200" height="500">
+
+  <script type="text/javascript">
+    window.onload = function init() {
+ var game = new GF();
+ game.start();
+ };
+
+var GF = function() {
+  
+  var canvas, ctx, w, h;
+ 
+  var p=0;
+  
+   
+ 
+ var fall=0;
+var quad = [];
+var k=0;
+var myGamePiece;
+
+ var inputStates = {};
+  
+ 
+  var ball = { x:0,
+             y:0,
+             speed:0,
+             gravitySpeed:0,
+             gravity:0.1,
+             bounce:0.8,
+             radius:20,
+             angle:Math.PI/4
+             }
+  ball.angle = Math.atan2(ball.y,ball.x);
+ball.x = Math.cos(ball.angle);
+  ball.y = Math.sin(ball.angle);
+  
+
+   var measureFPS = function(newTime){
+      
+         // test for the very first invocation
+         if(lastTime === undefined) {
+           lastTime = newTime; 
+           return;
+         }
+      
+        //calculate the difference between last & current frame
+        var diffTime = newTime - lastTime; 
+
+        if (diffTime >= 1000) {
+            fps = frameCount;    
+            frameCount = 0;
+            lastTime = newTime;
+        }
+
+        //and display it in an element we appended to the 
+        // document in the start() function
+       fpsContainer.innerHTML = 'FPS: ' + fps; 
+       frameCount++;
+    };
+  
+  function clearCanvas() {
+  ctx.clearRect(0, 0, w, h);
+  }
+  
+  function stop() {
+    clearInterval(mainLoop);
+  }
+  
+  function draw() {
+    
+    
+    
+    ball.gravitySpeed += ball.gravity;
+        
+        ball.y += ball.speed + ball.gravitySpeed;
+    
+     
+    collision();
+  }
+  
+  function update() {
+    
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.radius, 0, 2*Math.PI);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+   
+  }
+  
+  function collision() {
+   
+        if (ball.y > (h-22)) {
+            ball.y = h-22;
+            ball.gravitySpeed = -(ball.gravitySpeed * ball.bounce);
+        }
+    
+    if (ball.x > (w-22)) {
+            ball.x = w-22;
+            
+        }
+    
+     
+    if (ball.x < (22)) {
+            ball.x = 22;
+            
+        }
+  }
+  
+  function updateball() {
+      
+  
+         if (inputStates.left) {
+           ball.x-=2;
+           
+        }
+        if (inputStates.up) {
+           ball.y -=2;
+        
+        
+        }
+       if (inputStates.right) {
+           ball.x+=2;
+        }
+        if (inputStates.down) {
+           ball.y+=1;
+        }
+    else {
+      ball.gravitySpeed += ball.gravity;
+        
+        ball.y += ball.speed + ball.gravitySpeed;
+      
+      collision();
+    }
+       
+  }
+  
+  
+  
+  
+  function getMousePos(evt) {
+   var rect = canvas.getBoundingClientRect();
+   return {
+    x : evt.clientX - rect.left,
+	y : evt.clientY - rect.top
+	};
+	}
+  
+  function drawTheSky() {
+    grdFrenchFlag = ctx.createLinearGradient(0, 5, 80, 600);
+              
+  // Try adding colors with first parameter between 0 and 1
+  grdFrenchFlag.addColorStop(0,  "lightblue"); 
+  grdFrenchFlag.addColorStop(0.9999, "white");
+ 
+
+  draw();
+}
+  
+  function draw() {
+  ctx.fillStyle = grdFrenchFlag;
+  ctx.fillRect(0, 0, w,h);
+
+  }
+
+ 
+function collideWall(otherobj) {
+  var myleft = ball.x;
+        var myright = ball.x + (ball.radius);
+        var mytop = ball.y ;
+        var mybottom = ball.y + (ball.radius);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+       var crash;
+       
+  if((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+  
+    
+    crash = false;
+  } else {
+    
+    
+     
+   
+   crash = true;
+}
+ 
+  return crash;
+  
+}
+ 
+
+
+function updateWall() {
+  var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+
+    
+for (i = 0; i < quad.length; i += 1) {
+        if (collideWall(quad[i])) {
+            stop();
+            return;
+        } 
+    }
+  
+  
+  
+  
+  
+  
+  
+  ctx.clearRect(0, 0, w, h);
+ 
+ document.getElementById("demo").innerHTML = "SCORE:" + p ;
+ if (k == 1 || everyinterval(100)) {
+    p++;
+  }
+  
+  
+    
+  drawTheSky();
+  updateball();
+  update();
+  
+    
+  
+   k += 1;
+    if (k == 1 || everyinterval(300)) {
+       x = w;
+        minHeight = 20;
+        maxHeight = 100;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 50;
+        maxGap = 800;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        
+      quad.push(new comp(10, x - height - gap, "green", x, height + gap));
+    }
+    for ( i = 0; i < quad.length; i ++) {
+        quad[i].x -= 1;
+        quad[i].update();
+  
+       
+    
+  collideWall(quad[i]);
+}
+      quad.newPos();
+  quad.update();
+}
+ 
+
+
+function comp(width, height, color, x, y) {
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+         ctx = canvas.getContext('2d');
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    };
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;        
+    };  
+  
+     
+    }
+   
+
+
+function everyinterval(n) {
+    if ((k / n) % 1 === 0) {return true;}
+    return false;
+}
+  
+   var mainLoop = function() {
+    
+    
+  
+  setInterval(updateWall, 20);
+}; 
+
+  var start = function() {
+   
+    
+     
+    
+  canvas = document.querySelector("#myCanvas");
+  w = canvas.width;
+  h = canvas.height;
+  ctx = canvas.getContext('2d');
+  ctx.font = "20px Arial";
+    
+     //add the listener to the main, window object, and update the states
+      window.addEventListener('keydown', function(event){
+          if (event.keyCode === 37) {
+             inputStates.left = true;
+          } else if (event.keyCode === 38) {
+             inputStates.up = true;
+          } else if (event.keyCode === 39) {
+             inputStates.right = true;
+          } else if (event.keyCode === 40) {
+             inputStates.down = true;
+          }  else if (event.keyCode === 32) {
+             inputStates.space = true;
+          }
+      }, false);
+
+      //if the key will be released, change the states object 
+      window.addEventListener('keyup', function(event){
+          if (event.keyCode === 37) {
+             inputStates.left = false;
+          } else if (event.keyCode === 38) {
+             inputStates.up = false;
+          } else if (event.keyCode === 39) {
+             inputStates.right = false;
+          } else if (event.keyCode === 40) {
+             inputStates.down = false;
+          } else if (event.keyCode === 32) {
+             inputStates.space = false;
+          }
+      }, false);
+      
+     
+  mainLoop();
+  };
+  
+  return {
+  start: start
+  };
+  };
+    
+  
+
+    </script>
+</body>
+</html>
