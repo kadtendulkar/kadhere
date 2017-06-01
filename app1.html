@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+   <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head 
+         content must come *after* these tags -->
+
+   <link rel="shortcut icon" href="mylogo1.png" /><title>Apps-Bouncing Ball</title>
+	
+	 <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/mystyles1.css" rel="stylesheet">
+    <link href="css/bootstrap-social.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/font-awesome-min.css" rel="stylesheet">
+	
+	<style>
+	  
+	  
+  body {
+  background-color:#daedfa;
+      font: 20px Montserrat, sans-serif;
+      line-height: 1.8;
+      
+  }
+  
+  .navbar {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 12px;
+      letter-spacing: 5px;
+  }
+  .navbar-nav  li a:hover {
+      color: white;
+  }
+  
+  .container-fluid {
+      padding-top: 90px;
+      padding-bottom: 70px;
+  }
+   .container-fluid {
+      padding-top: 100px;
+      padding-bottom: 80px;
+  }
+  .thumb1 {
+  padding:20px;
+     
+  }
+	  
+	</style>
+	
+	<body>
+	
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
+        <div class="container" >
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img class="img-responsive" src="mylogo.png" width="100px" height="100px" style="position:relative; top:-20px;" ></a>
+            </div>
+            
+            <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="inactive"><a href="#kadhome.html">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+                <li class="inactive"><a href="#kad2.html"> Profile</a></li>
+                 <li class="inactive"><a href="#">creativity</a></li>
+                 <li class="active"><a href="#app.html">Apps</a></li>
+            </ul>
+            </div></div>
+    </nav>
+	
+	
+	<div class="container container-fluid">
+	<div class="row">
+	<div class="col-xs-12 col-sm-3"><div>
+	  <div class="thumbnail thumb1">
+	  <h4>Index</h4>
+	  <h6>
+	  <ol>
+	    <li>game:
+	      <ol>
+		    <li>bouncing ball
+		    </li>
+	      </ol>
+	    </li>
+	  </h6>
+	  
+				
+	  </ol>
+	  <br><br><hr>
+	  </div>
+	  </div>
+	</div>
+	
+	<div class="col-xs-12 col-sm-9">
+	<div class="thumbnail thumb1">
+	
+  
+ <h3 id="demo">jhjh</h3>
+  
+<canvas id="myCanvas" width="800" height="500" style="border:1px solid black;">
+	</div>
+	</div>
+	
+	</div>
+	</div>
+	
+	
+	
+	<footer class="row-footer" style="color:#f5f6f7;">
+        <div class="container">
+         	   <div class="row">             
+                <div class="col-xs-5 col-xs-offset-1 col-sm-2 col-sm-offset-1">
+                    
+                </div>
+                <div class="col-xs-6 col-sm-5">
+                    
+                </div>
+                <div class="col-xs-12 col-sm-4">
+				
+                    <div class="nav nabar-nav" style="padding: 40px 10px;">Follow me here...
+                        <a class="btn btn-social-icon btn-google-plus" href="https://plus.google.com/u/0/112354855272730509506"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/sandy.dsalve"><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-social-icon btn-instagram" href="https://www.instagram.com/kadambinitendulkar12/"><i class="fa fa-instagram" ></i></a>
+                        
+                      
+                        <a class="btn btn-social-icon" href="mailto:kadambinitendulkar12@gmail.com"><i class="fa fa-envelope-o"></i></a>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <p style="padding:10px;"></p>
+                    <p align="center">© Copyright 2017 Kaddy</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+ <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+    window.onload = function init() {
+ var game = new GF();
+ game.start();
+ };
+
+var GF = function() {
+  
+  var canvas, ctx, w, h;
+ 
+  var p=0;
+  
+   
+ 
+ 
+var quad = [];
+var k=0;
+var myGamePiece;
+
+ var inputStates = {};
+  
+ 
+  var ball = { x:0,
+             y:0,
+             speed:0,
+             gravitySpeed:0,
+             gravity:0.1,
+             bounce:0.8,
+             radius:20,
+             
+             }
+  
+  
+
+  
+  function clearCanvas() {
+  ctx.clearRect(0, 0, w, h);
+  }
+  
+  function stop() {
+    clearInterval(mainLoop);
+  }
+  
+  function draw() {
+    
+    
+    
+    ball.gravitySpeed += ball.gravity;
+        
+        ball.y += ball.speed + ball.gravitySpeed;
+    
+     
+    collision();
+  }
+  
+  function update() {
+    
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.radius, 0, 2*Math.PI);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+   
+  }
+  
+  function collision() {
+   
+        if (ball.y > (h-22)) {
+            ball.y = h-22;
+            ball.gravitySpeed = -(ball.gravitySpeed * ball.bounce);
+        }
+    
+    if (ball.x > (w-22)) {
+            ball.x = w-22;
+            
+        }
+    
+     
+    if (ball.x < (22)) {
+            ball.x = 22;
+            
+        }
+  }
+  
+  function updateball() {
+      
+  
+         if (inputStates.left) {
+           ball.x-=2;
+           
+        }
+        if (inputStates.up) {
+           ball.y -=2;
+        
+        
+        }
+       if (inputStates.right) {
+           ball.x+=2;
+        }
+        if (inputStates.down) {
+           ball.y+=1;
+        }
+    else {
+      ball.gravitySpeed += ball.gravity;
+        
+        ball.y += ball.speed + ball.gravitySpeed;
+      
+      collision();
+    }
+       
+  }
+  
+  
+  
+  
+ 
+  
+  function drawTheSky() {
+    grdFrenchFlag = ctx.createLinearGradient(0, 5, 80, 600);
+              
+  // Try adding colors with first parameter between 0 and 1
+  grdFrenchFlag.addColorStop(0,  "lightblue"); 
+  grdFrenchFlag.addColorStop(0.9999, "white");
+ 
+
+  draw();
+}
+  
+  function draw() {
+  ctx.fillStyle = grdFrenchFlag;
+  ctx.fillRect(0, 0, w,h);
+
+  }
+
+ 
+function collideWall(otherobj) {
+  var myleft = ball.x;
+        var myright = ball.x + (ball.radius);
+        var mytop = ball.y ;
+        var mybottom = ball.y + (ball.radius);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+       var crash;
+       
+  if((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+  
+    
+    return false;
+  } else {
+    
+    
+     
+   
+  return true;
+}
+ 
+  
+  
+}
+ 
+
+
+function updateWall() {
+  var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+
+    
+for (i = 0; i < quad.length; i += 1) {
+        if (collideWall(quad[i])) {
+            stop();
+            return;
+        } 
+    }
+  
+  
+  
+  
+  
+  
+  
+  ctx.clearRect(0, 0, w, h);
+ 
+ document.getElementById("demo").innerHTML = "SCORE : " + p ;
+ if (k == 1 || everyinterval(100)) {
+    p++;
+  }
+  
+  
+    
+  drawTheSky();
+  updateball();
+  update();
+  
+    
+  
+   k += 1;
+    if (k == 1 || everyinterval(300)) {
+       x = w;
+        minHeight = 20;
+        maxHeight = 100;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 50;
+        maxGap = 800;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        
+      quad.push(new comp(10, x - height - gap, "green", x, height + gap));
+    }
+    for ( i = 0; i < quad.length; i ++) {
+        quad[i].x -= 1;
+        quad[i].update();
+  
+       
+    
+ 
+}
+    
+  
+}
+ 
+
+
+function comp(width, height, color, x, y) {
+    this.width = width;
+    this.height = height;
+     
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+         ctx = canvas.getContext('2d');
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    };
+     
+  
+     
+    }
+   
+
+
+function everyinterval(n) {
+    if ((k / n) % 1 === 0) {return true;}
+    return false;
+}
+  
+   var mainLoop = function() {
+    
+    
+  
+  setInterval(updateWall, 20);
+}; 
+
+  var start = function() {
+   
+    
+     
+    
+  canvas = document.querySelector("#myCanvas");
+  w = canvas.width;
+  h = canvas.height;
+  ctx = canvas.getContext('2d');
+  ctx.font = "20px Arial";
+    
+     //add the listener to the main, window object, and update the states
+      window.addEventListener('keydown', function(event){
+          if (event.keyCode === 37) {
+             inputStates.left = true;
+          } else if (event.keyCode === 38) {
+             inputStates.up = true;
+          } else if (event.keyCode === 39) {
+             inputStates.right = true;
+          } else if (event.keyCode === 40) {
+             inputStates.down = true;
+          }  else if (event.keyCode === 32) {
+             inputStates.space = true;
+          }
+      }, false);
+
+      //if the key will be released, change the states object 
+      window.addEventListener('keyup', function(event){
+          if (event.keyCode === 37) {
+             inputStates.left = false;
+          } else if (event.keyCode === 38) {
+             inputStates.up = false;
+          } else if (event.keyCode === 39) {
+             inputStates.right = false;
+          } else if (event.keyCode === 40) {
+             inputStates.down = false;
+          } else if (event.keyCode === 32) {
+             inputStates.space = false;
+          }
+      }, false);
+      
+     
+  mainLoop();
+  };
+  
+  return {
+  start: start
+  };
+  };
+    
+  
+
+    </script>
+	</body>
+	</html>
